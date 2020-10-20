@@ -1,22 +1,28 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 const Header = () => {
     const auth = useSelector(state => state.auth);
     const renderContent = () => {
         switch (auth) {
             case null:
-                return 'still deciding';
+                return;
             case false:
-                return 'im loggedout';
+                return (
+                    <li><a href="/auth/google">Login with Google</a></li>
+                );
             default:
-               return 'im logged in' ;
-
+               return [
+                <li key="1"><Payments /></li>,
+                <li key="2"><a href="/api/logout">Logout</a></li>
+               ] ;
         }
     }
     return(
         <nav className="nav-wraper">
-            <a className="left brand-logo">Emaily</a>
+            <Link to={auth ? "/surveys" : "/"} className="left brand-logo">Emaily</Link>
             <ul className="right">
                 {renderContent()}
             </ul>
